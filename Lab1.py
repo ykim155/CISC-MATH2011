@@ -71,8 +71,8 @@ print("It took", i, "iterations for Viète's approximation to be within toleranc
 # 3:
 faces = {'f0': ['v0', 'v5', 'v1'], 'f1': ['v1', 'v5', 'v3', 'v4'], 'f2': ['v0', 'v2', 'v5']}
 
-vertices = {vertex: [] for face in faces for vertex in
-            faces[face]}  # creating a dictionary with vertices as the keys and empty lists as the values.
+vertices = {vertex: [] for face in faces for vertex in faces[face]}
+# creating a dictionary with vertices as the keys and empty lists as the values.
 for face in faces:
     for vertex in faces[face]:
         vertices[vertex].append(face)  # filling up the list.
@@ -80,10 +80,10 @@ for face in faces:
 face_keys = list(faces.keys())
 face_values = list(faces.values())
 
-edges_frozen = {frozenset(
-    (face_values[face][vertex % len(face_values[face])], face_values[face][(vertex + 1) % len(face_values[face])])): []
-                for face in range(len(face_values)) for vertex in range(len(face_values[face]))}
-# creating a dictionary with edges as frozensets so we can use a container as a key without using a tuple (because order matters with a tuple and that creates duplicates and headaches)
+edges_frozen = {frozenset((face_values[face][vertex % len(face_values[face])], face_values[face][(vertex + 1) % len(face_values[face])])):
+                    [] for face in range(len(face_values)) for vertex in range(len(face_values[face]))}
+# creating a dictionary with edges as frozenset so we can use a container as a key
+# without using a tuple (because order matters with a tuple and that creates duplicates and headaches)
 
 for face in range(len(face_values)):
     for vertex in range(len(face_values[face])):
