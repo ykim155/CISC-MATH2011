@@ -57,6 +57,7 @@ T = [4, 5, 7, 6, 4]
 
 f1 = np.array([shape[:, i] for i in i1]).T
 f2 = np.array([shape[:, i] for i in i2]).T
+f3 = np.array([shape[:, i] for i in i3]).T
 
 
 f1 = [tuple(shape[:, i]) for i in i1]
