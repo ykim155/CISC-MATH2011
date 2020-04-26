@@ -42,19 +42,19 @@ plt.show()
 # Number 3
 
 # Create a 3D Object
-x = np.array([(0, 1, 1, 0, 0.5)
-              (0, 0, 1, 1, 0.5)
-              (0, 0, 0, 0, 0.5)])
-fig =  plt.figure()
+shape = np.array([[0, 1, 1, 0, 0, 0.5, 1, 0, 0.5, 1, 0.5, 0],
+                  [0, 0, 1, 1, 0, 0.5, 0, 0, 0.5, 1, 0.5, 1],
+                  [0, 0, 0, 0, 0, 0.5, 0, 0, 0.5, 0, 0.5, 0]])
+fig = plt.figure()
 ax = fig.gca(projection='3d')
-ax.plot(x[0], x[1], x[2], '.b')
+ax.plot(shape[0], shape[1], shape[2], 'g')
 plt.show()
 
 # Create the rotation matrix to rotate about the axis
 norm = np.linalg.norm
 u = np.array([1, 0, 1])
-v = np.array([1, 0, 1])
-w = np.cross(u, w)
+v = np.array([1, 0, -1])
+w = np.cross(u, v)
 
 u = u.reshape((3, 1)) / norm(u)
 v = v.reshape((3, 1)) / norm(v)
@@ -68,3 +68,7 @@ Q = w @ w.T + R
 # Create Animation
 
 def animate(i):
+    global shape, Q
+    shape = R @ shape
+    ax.clear()
+    ax.plot(x[0], x[1], x[2])
