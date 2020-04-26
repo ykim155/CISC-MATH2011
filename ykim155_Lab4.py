@@ -103,7 +103,6 @@ th = pi / 100.0
 R = cos(th) * u @ u.T - sin(th) * u @ v.T + sin(th) * v @ u.T + cos(th) * v @ v.T
 Q = w @ w.T + R
 
-
 # Create Animation
 fig = plt.figure()
 ax = fig.gca(projection='3d')
@@ -113,12 +112,12 @@ def animate2(i):
     global Q, shape
     print(i)
     shape = Q @ shape
-    ax.plot
+    ax.clear()
     ax.plot(shape[0], shape[1], shape[2], '.k')
     ax.set_xlim(-2.5, 2.5)
     ax.set_ylim(-2.5, 2.5)
     ax.set_zlim(-2.5, 2.5)
 
 
-anim = FuncAnimation(fig, func = animate2, frames = range(100), interval = 2)
+anim = FuncAnimation(fig, func=animate2, frames=range(100), interval=2)
 plt.show()
