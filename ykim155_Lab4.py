@@ -58,17 +58,11 @@ T = [4, 5, 7, 6, 4]
 f1 = np.array([shape[:, i] for i in i1]).T
 f2 = np.array([shape[:, i] for i in i2]).T
 f3 = np.array([shape[:, i] for i in i3]).T
-
-
-f1 = [tuple(shape[:, i]) for i in i1]
-f2 = [tuple(shape[:, i]) for i in i2]
-f3 = [tuple(shape[:, i]) for i in i3]
-f4 = [tuple(shape[:, i]) for i in i4]
-fB = [tuple(shape[:, i]) for i in B]
-fT = [tuple(shape[:, i]) for i in T]
+f4 = np.array([shape[:, i] for i in i4]).T
+fB = np.array([shape[:, i] for i in B]).T
+fT = np.array([shape[:, i] for i in T]).T
 
 faces = [f1, f2, f3, f4, fB, fT]
-colors = ['r', 'b', 'g', 'k', 'm', 'c']
 
 # Create the rotation matrix to rotate about the axis
 norm = np.linalg.norm
@@ -84,19 +78,6 @@ Q = np.hstack([u, v, w])
 th = pi / 100.0
 R = cos(th) * u @ u.T - sin(th) * u @ v.T + sin(th) * v @ u.T + cos(th) * v @ v.T
 Q = w @ w.T + R
-
-fig = plt.figure()
-ax = fig.gca(projection='3d')
-
-for (f, c) in zip(faces, colors):
-    poly = Poly3DCollection([f])
-    poly.set_color(c)
-    ax.add_collection3d(poly)
-    vx = [t[0] for t in f]
-    vy = [t[1] for t in f]
-    vz = [t[2] for t in f]
-    V = np.array([vx, vy, vz])
-    ax.plot(V[0], V[1], V[2], 'k', linewidth=3)
 
 # Create Animation
 fig = plt.figure()
