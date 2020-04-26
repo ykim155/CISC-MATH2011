@@ -2,6 +2,7 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 cos, sin, pi = math.cos, math.sin, math.pi
 
@@ -41,23 +42,22 @@ plt.show()
 
 # Number 3
 
-# Create a 3D Object
+# Create a 3D Object. This is a cube
 shape = np.array([[0, 0, 1, 1, 0, 0, 1, 1],
                   [0, 1, 0, 1, 0, 1, 0, 1],
                   [0, 0, 0, 0, 1, 1, 1, 1]])
 
-# fig = plt.figure()
-# ax = fig.gca(projection='3d')
-# ax.plot(shape[0], shape[1], shape[2],'.b')
-# plt.show()
-
 # Vertices and Faces
-i1 = [0, 2, 4, 6]
-i2 = [2, 3, 6, 7]
-i3 = [1, 3, 5, 7]
-i4 = [0, 1, 4, 5]
-B = [0, 1, 2, 3]
-T = [4, 5, 6, 7]
+i1 = [0, 2, 6, 4, 0]
+i2 = [2, 3, 7, 6, 2]
+i3 = [1, 3, 7, 5, 1]
+i4 = [0, 1, 5, 4, 0]
+B = [0, 1, 3, 2, 0]
+T = [4, 5, 7, 6, 4]
+
+f1 = np.array([shape[:, i] for i in i1]).T
+f2 = np.array([shape[:, i] for i in i2]).T
+
 
 f1 = [tuple(shape[:, i]) for i in i1]
 f2 = [tuple(shape[:, i]) for i in i2]
@@ -68,25 +68,6 @@ fT = [tuple(shape[:, i]) for i in T]
 
 faces = [f1, f2, f3, f4, fB, fT]
 colors = ['r', 'b', 'g', 'k', 'm', 'c']
-
-from mpl_toolkits.mplot3d.art3d import Poly3DCollection
-
-fig = plt.figure()
-ax = fig.gca(projection='3d')
-
-for (f, c) in zip(faces, colors):
-    poly = Poly3DCollection([f])
-    poly.set_color(c)
-    ax.add_collection3d(poly)
-    vx = [t[0] for t in f]
-    vy = [t[1] for t in f]
-    vz = [t[2] for t in f]
-    ax.plot(vx, vy, vz, 'k', linewidth=3)
-
-# ax.set_xlim(0, 2)
-# ax.set_ylim(0, 2)
-# ax.set_zlim(0, 2)
-# plt.show()
 
 # Create the rotation matrix to rotate about the axis
 norm = np.linalg.norm
@@ -103,17 +84,33 @@ th = pi / 100.0
 R = cos(th) * u @ u.T - sin(th) * u @ v.T + sin(th) * v @ u.T + cos(th) * v @ v.T
 Q = w @ w.T + R
 
+fig = plt.figure()
+ax = fig.gca(projection='3d')
+
+for (f, c) in zip(faces, colors):
+    poly = Poly3DCollection([f])
+    poly.set_color(c)
+    ax.add_collection3d(poly)
+    vx = [t[0] for t in f]
+    vy = [t[1] for t in f]
+    vz = [t[2] for t in f]
+    V = np.array([vx, vy, vz])
+    ax.plot(V[0], V[1], V[2], 'k', linewidth=3)
+
 # Create Animation
 fig = plt.figure()
 ax = fig.gca(projection='3d')
 
 
 def animate2(i):
-    global Q, shape
-    print(i)
+    global Q, shape, faces
+
     shape = Q @ shape
+
     ax.clear()
     ax.plot(shape[0], shape[1], shape[2], '.k')
+    ax.plot(V[0], V[1], V[2], 'k')
+
     ax.set_xlim(-2.5, 2.5)
     ax.set_ylim(-2.5, 2.5)
     ax.set_zlim(-2.5, 2.5)
