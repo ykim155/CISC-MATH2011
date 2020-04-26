@@ -66,15 +66,14 @@ f4 = [tuple(shape[:, i]) for i in i4]
 fB = [tuple(shape[:, i]) for i in B]
 fT = [tuple(shape[:, i]) for i in T]
 
-faces = [f1, f2, f3, f4, B, T]
+faces = [f1, f2, f3, f4, fB, fT]
 colors = ['r', 'b', 'g', 'k', 'm', 'c']
 
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
-fig = plt.figure()  # create new figure
+fig = plt.figure()
 ax = fig.gca(projection='3d')
 
-# plot polygonal face one at a time---- SMH
 for (f, c) in zip(faces, colors):
     poly = Poly3DCollection([f])
     poly.set_color(c)
@@ -84,11 +83,10 @@ for (f, c) in zip(faces, colors):
     vz = [t[2] for t in f]
     ax.plot(vx, vy, vz, 'k', linewidth=3)
 
-ax.axis('scaled')
-ax.set_xlim(0, 2)
-ax.set_ylim(0, 2)
-ax.set_zlim(0, 2)
-plt.show()
+# ax.set_xlim(0, 2)
+# ax.set_ylim(0, 2)
+# ax.set_zlim(0, 2)
+# plt.show()
 
 # Create the rotation matrix to rotate about the axis
 norm = np.linalg.norm
@@ -101,9 +99,26 @@ v = v.reshape((3, 1)) / norm(v)
 w = w.reshape((3, 1)) / norm(w)
 
 Q = np.hstack([u, v, w])
-th = pi / 20.0
+th = pi / 100.0
 R = cos(th) * u @ u.T - sin(th) * u @ v.T + sin(th) * v @ u.T + cos(th) * v @ v.T
 Q = w @ w.T + R
 
 
 # Create Animation
+fig = plt.figure()
+ax = fig.gca(projection='3d')
+
+
+def animate2(i):
+    global Q, shape
+    print(i)
+    shape = Q @ shape
+    ax.plot
+    ax.plot(shape[0], shape[1], shape[2], '.k')
+    ax.set_xlim(-2.5, 2.5)
+    ax.set_ylim(-2.5, 2.5)
+    ax.set_zlim(-2.5, 2.5)
+
+
+anim = FuncAnimation(fig, func = animate2, frames = range(100), interval = 2)
+plt.show()
