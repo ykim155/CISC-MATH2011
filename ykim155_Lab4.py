@@ -2,7 +2,6 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 cos, sin, pi = math.cos, math.sin, math.pi
 
@@ -39,6 +38,7 @@ def animate1(i):
 
 anim = FuncAnimation(fig, func=animate1, frames=range(100), interval=1)
 plt.show()
+print("Diagonal matrix increases the volume. Shear matrix and rotation matrix does not change the volume.")
 
 # Number 2
 norm = np.linalg.norm
