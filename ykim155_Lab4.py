@@ -34,11 +34,39 @@ def animate1(i):
     ax.plot(x[0], x[1])
 
     Vol = (x[0, 1] - x[0, 0]) * (x[1, 3] - x[1, 0])
-    print(Vol)
+    # print(Vol)
 
 
 anim = FuncAnimation(fig, func=animate1, frames=range(100), interval=1)
 plt.show()
+
+# Number 2
+norm = np.linalg.norm
+print("norm = np.linalg.norm")
+print("Making an orthogonal vector Q.")
+Q = (1 / 3) * np.array([[2, -2, 1], [1, 2, 2], [2, 1, -2]])
+print(Q)
+
+print("Q-Skew from Def. 21")
+Qskw = .5 * (Q - Q.T)
+print(Qskw)
+
+print("w is for omega, the axial vector. The axis in which the orthogonal vector rotates.")
+w = np.array([Q[2, 1] - Q[1, 2], Q[0, 2] - Q[2, 0], Q[1, 0] - Q[0, 1]]).reshape((3, 1))
+print(w)
+
+print("We can see that Qskw @ w = 0. Then, 0.5(Q - Q.T)w = 0. After moving 1/2 and distributing w, we get Qw = Q.Tw.")
+0 == Qskw @ w
+print(
+    "Multiply Q to both sides and you get Q^2w = QQ.Tw. Since Q is orthogonal, QQ.T is the identity matrix, I or I^2.")
+print(Q @ Q.T)
+print("Now we have: Q^2w = I^2w. If we move I^2w to the other side and factor out w, we get (Q^2-I^2)w.")
+print("We can factor using the difference of squares to get: (Q+I)(Q-I)w = 0.")
+# W not omega now.
+print("Now either case can, leads to the conclusion that unit vector W exists, where QW = cW, c = +-1.")
+W = w / norm(w)
+print(Q @ W)
+print(W)
 
 # Number 3
 
@@ -89,9 +117,22 @@ def animate2(i):
 
     shape = Q @ shape
 
+    faces[0] = Q @ faces[0]
+    faces[1] = Q @ faces[1]
+    faces[2] = Q @ faces[2]
+    faces[3] = Q @ faces[3]
+    faces[4] = Q @ faces[4]
+    faces[5] = Q @ faces[5]
+
     ax.clear()
     ax.plot(shape[0], shape[1], shape[2], '.k')
-    ax.plot(V[0], V[1], V[2], 'k')
+
+    ax.plot(faces[0][0], faces[0][1], faces[0][2], 'k')
+    ax.plot(faces[1][0], faces[1][1], faces[1][2], 'k')
+    ax.plot(faces[2][0], faces[2][1], faces[2][2], 'k')
+    ax.plot(faces[3][0], faces[3][1], faces[3][2], 'k')
+    ax.plot(faces[4][0], faces[4][1], faces[4][2], 'k')
+    ax.plot(faces[5][0], faces[5][1], faces[5][2], 'k')
 
     ax.set_xlim(-2.5, 2.5)
     ax.set_ylim(-2.5, 2.5)
