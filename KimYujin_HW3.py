@@ -46,8 +46,6 @@ def GetBunnyCloudData():
     f = open("bunny_cloud.dat", "r")  # open bunny_cloud.dat for reading
     DATA = f.readlines()  # reads all lines of bunny_cloud.dat and puts them into a list
 
-    N = len(DATA)  # length of DATA; the amount of lines in bunny_cloud.dat
-
     z = []  # empty list
 
     for s in DATA:  # for every line in bunny_cloud.dat
